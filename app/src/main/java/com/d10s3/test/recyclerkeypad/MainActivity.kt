@@ -1,4 +1,4 @@
-package com.mns.test.recyclerkeypad
+package com.d10s3.test.recyclerkeypad
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mns.test.recyclerkeypad.databinding.ActivityMainBinding
-import com.mns.test.recyclerkeypad.databinding.ItemKeypadBinding
+import com.d10s3.test.recyclerkeypad.databinding.ActivityMainBinding
+import com.d10s3.test.recyclerkeypad.databinding.ItemKeypadBinding
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {

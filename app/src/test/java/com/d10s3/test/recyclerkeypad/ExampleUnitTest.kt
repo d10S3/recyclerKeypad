@@ -1,4 +1,4 @@
-package com.mns.test.recyclerkeypad
+package com.d10s3.test.recyclerkeypad
 
 import org.junit.Test
 
