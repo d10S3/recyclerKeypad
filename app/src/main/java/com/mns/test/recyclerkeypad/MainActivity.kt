@@ -10,27 +10,30 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import com.mns.test.recyclerkeypad.databinding.ActivityMainBinding
+import com.mns.test.recyclerkeypad.databinding.ItemKeypadBinding
 import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     companion object {
         private const val MAX_COUNT = 6
     }
-    var inputPin = StringBuilder()
+    private lateinit var binding: ActivityMainBinding
+    private var inputPin = StringBuilder()
     private var inPinConde = arrayOfNulls<ImageView>(6)
     private var arrayList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        inPinConde[0] = ivMemberPin01
-        inPinConde[1] = ivMemberPin02
-        inPinConde[2] = ivMemberPin03
-        inPinConde[3] = ivMemberPin04
-        inPinConde[4] = ivMemberPin05
-        inPinConde[5] = ivMemberPin06
+        inPinConde[0] = binding.ivMemberPin01
+        inPinConde[1] = binding.ivMemberPin02
+        inPinConde[2] = binding.ivMemberPin03
+        inPinConde[3] = binding.ivMemberPin04
+        inPinConde[4] = binding.ivMemberPin05
+        inPinConde[5] = binding.ivMemberPin06
 
         inputPin.setLength(0)
 
@@ -38,8 +41,8 @@ class MainActivity : AppCompatActivity() {
 
         shuffle()
 
-        recyclerView.layoutManager = GridLayoutManager(this, 3)
-        recyclerView.adapter = KeypadItemAdapter(arrayList)
+        binding.recyclerView.layoutManager = GridLayoutManager(this, 3)
+        binding.recyclerView.adapter = KeypadItemAdapter(arrayList)
 
     }
 
@@ -65,32 +68,28 @@ class MainActivity : AppCompatActivity() {
         arrayList.add("")
     }
 
-    inner class KeypadItemAdapter : RecyclerView.Adapter<KeypadItemAdapter.ViewHolder> {
-        private var itemList = ArrayList<String>()
-
-        constructor(itemList: ArrayList<String>) {
-            this.itemList = itemList
-        }
+    inner class KeypadItemAdapter(private val itemList: ArrayList<String>) :
+        RecyclerView.Adapter<KeypadItemAdapter.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_keypad, parent,false))
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_keypad, parent, false)
+            return ViewHolder(ItemKeypadBinding.bind(view))
         }
 
         override fun getItemCount(): Int = itemList.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             when (position) {
-                9 -> holder.btnKeypad.text = "재배열"
-                11 -> holder.btnKeypad.text = "삭제"
-                else -> holder.btnKeypad.text = itemList[position]
+                9 -> holder.binding.btnKeypad.text = "재배열"
+                11 -> holder.binding.btnKeypad.text = "삭제"
+                else -> holder.binding.btnKeypad.text = itemList[position]
             }
         }
 
-        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val btnKeypad: Button = itemView.findViewById(R.id.btnKeypad)
+        inner class ViewHolder(val binding: ItemKeypadBinding) : RecyclerView.ViewHolder(binding.root) {
             init {
-                btnKeypad.setOnClickListener {
-                    onItemClick(btnKeypad, adapterPosition)
+                binding.btnKeypad.setOnClickListener {
+                    onItemClick(binding.btnKeypad, adapterPosition)
                 }
             }
         }
